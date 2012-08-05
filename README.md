@@ -2,6 +2,7 @@ JobSchedule
 ===========
 
 Job Schedule for C#.NET Methods
+You can read article from http://www.kenanhancer.com/job-schedule/
 
     using System;
     using System.Collections.Generic;
