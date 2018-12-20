@@ -1,224 +1,137 @@
-----------------------
-Command Line Arguments
-----------------------
+JobSchedule
+===========
 
-Example:  ./word-count -b -sort SelectionSort -suf < textfile
+Job Schedule for C#.NET Methods
+You can read article from http://www.kenanhancer.com/job-schedule/
 
--b | -a | -s
-  (required) Specifies the type of tree for storing (word, count) pair
-  possible trees are Binary search tree, Avl tree, and Splay tree
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Dynamic;
+    using System.Reflection;
+    using System.ComponentModel;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+    using System.Threading;
+    using JobScheduleLib;
 
-    -b - Count frequencies using an unbalanced binary search tree 
-    -a - Count frequencies using an AVL tree 
-    -s - Count frequencies using a splay tree 
+    namespace ConsoleApplication_JobScheduleTest
+    {
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                dynamic dailySchedule1 = new ExpandoObject();
+                dailySchedule1.Class = "SMS";
+                dailySchedule1.Method = "SendCustomerInvoice";
+                dailySchedule1.ScheduleFrequencyType = ScheduleFrequencyType.DailySchedule;
+                dailySchedule1.ScheduleFrequencyInterval = 1;
+                dailySchedule1.RecuriveFrequencyType = RecursiveFrequencyTypeEnum.EverySecond;
+                dailySchedule1.RecuriveFrequencyInterval = 2;
+                dailySchedule1.StartingAt = new TimeSpan(0, 0, 0);
+                dailySchedule1.EndingAt = new TimeSpan(23, 59, 59);
+                dailySchedule1.DurationStartDate = DateTime.Now.AddSeconds(-4);
+                dailySchedule1.DurationEndDate = null;
 
--sort SelectionSort | MergeSort | HeapSort
-  (optional) Specifies the type of sort.  
-  If -sort is omitted, HeapSort is used
+                dynamic dailySchedule2 = new ExpandoObject();
+                dailySchedule2.Class = "SMS";
+                dailySchedule2.Method = "SendCustomerInvoice";
+                dailySchedule2.ScheduleFrequencyType = ScheduleFrequencyType.DailySchedule;
+                dailySchedule2.ScheduleFrequencyInterval = 1;
+                dailySchedule2.RecuriveFrequencyType = RecursiveFrequencyTypeEnum.EverySecond;
+                dailySchedule2.RecuriveFrequencyInterval = 2;
+                dailySchedule2.StartingAt = new TimeSpan(9, 53, 0);
+                dailySchedule2.EndingAt = new TimeSpan(9, 54, 0);
+                dailySchedule2.DurationStartDate = DateTime.Now;
+                dailySchedule2.DurationEndDate = dailySchedule2.DurationStartDate.AddDays(5);
 
--suf
-  (optional) Turns on suffix checker
+                dynamic dailySchedule3 = new ExpandoObject();
+                dailySchedule3.Class = "SMS";
+                dailySchedule3.Method = "SendCustomerInvoice";
+                dailySchedule3.ScheduleFrequencyType = ScheduleFrequencyType.DailySchedule;
+                dailySchedule3.ScheduleFrequencyInterval = 1;
+                dailySchedule3.RecuriveFrequencyType = RecursiveFrequencyTypeEnum.EveryMinute;
+                dailySchedule3.RecuriveFrequencyInterval = 1;
+                dailySchedule3.StartingAt = new TimeSpan(18, 52, 0);
+                dailySchedule3.EndingAt = new TimeSpan(18, 54, 0);
+                dailySchedule3.DurationStartDate = DateTime.Now;
+                dailySchedule3.DurationEndDate = dailySchedule3.DurationStartDate.AddDays(5);
 
--------------------------
-Design Decisions & Issues
--------------------------
-Since we stereotype against english majors, let's avoid writing this in an
-essay format...
+                dynamic dailySchedule4 = new ExpandoObject();
+                dailySchedule4.Class = "SMS";
+                dailySchedule4.Method = "SendCustomerInvoice";
+                dailySchedule4.ScheduleFrequencyType = ScheduleFrequencyType.DailySchedule;
+                dailySchedule4.ScheduleFrequencyInterval = 2;
+                dailySchedule4.RecuriveFrequencyType = RecursiveFrequencyTypeEnum.EverySecond;
+                dailySchedule4.RecuriveFrequencyInterval = 1;
+                dailySchedule4.StartingAt = new TimeSpan(10, 49, 0);
+                dailySchedule4.EndingAt = new TimeSpan(10, 49, 15);
+                dailySchedule4.DurationStartDate = DateTime.Now;
+                dailySchedule4.DurationEndDate = dailySchedule4.DurationStartDate.AddDays(5);
 
-Q.  The original BinarySearchTree::Insert() resolves key collosion by
-overwriting the old value with the new value.  How does the modified insert
-functions resolve key collosions?
+                dynamic dailySchedule5 = new ExpandoObject();
+                dailySchedule5.Class = "SMS";
+                dailySchedule5.Method = "SendCustomerInvoice";
+                dailySchedule5.ScheduleFrequencyType = ScheduleFrequencyType.DailySchedule;
+                dailySchedule5.ScheduleFrequencyInterval = 2;
+                dailySchedule5.RecuriveFrequencyType = RecursiveFrequencyTypeEnum.EverySecond;
+                dailySchedule5.RecuriveFrequencyInterval = 1;
+                dailySchedule5.StartingAt = new TimeSpan(18, 48, 21);
+                dailySchedule5.EndingAt = new TimeSpan(18, 48, 40);
+                dailySchedule5.DurationStartDate = DateTime.Now;
+                dailySchedule5.DurationEndDate = dailySchedule5.DurationStartDate.AddDays(5);
 
-A.  The modified insert functions resolve key collosions by adding the new
-value to the old value.  For example, if there exists a key K with a value 3,
-and we wanted to insert a key K with value 2, the Insert function would change
-the value to 3+2=5.  For our word-count, every key is inserted with a value 1.
-However, it's easy to see that the insert functions allow different changes to
-be made to the existing key-value tree.
-    Consequently, the + operator must be overloaded for the ValueType.  
+                dynamic weeklySchedule6 = new ExpandoObject();
+                weeklySchedule6.Class = "SMS";
+                weeklySchedule6.Method = "SendCustomerInvoice";
+                weeklySchedule6.ScheduleFrequencyType = ScheduleFrequencyType.WeeklySchedule;
+                weeklySchedule6.ScheduleFrequencyInterval = 2;
+                weeklySchedule6.RecuriveFrequencyType = RecursiveFrequencyTypeEnum.EverySecond;
+                weeklySchedule6.RecuriveFrequencyInterval = 1;
+                weeklySchedule6.StartingAt = new TimeSpan(4, 21, 0);
+                weeklySchedule6.EndingAt = new TimeSpan(4, 21, 10);
+                weeklySchedule6.DurationStartDate = DateTime.Now;
+                weeklySchedule6.DurationEndDate = weeklySchedule6.DurationStartDate.AddDays(100);
 
+                dynamic monthlySchedule6 = new ExpandoObject();
+                monthlySchedule6.Class = "SMS";
+                monthlySchedule6.Method = "SendCustomerInvoice";
+                monthlySchedule6.ScheduleFrequencyType = ScheduleFrequencyType.MonthlySchedule;
+                monthlySchedule6.ScheduleFrequencyInterval = 2;
+                monthlySchedule6.RecuriveFrequencyType = RecursiveFrequencyTypeEnum.EverySecond;
+                monthlySchedule6.RecuriveFrequencyInterval = 1;
+                monthlySchedule6.StartingAt = new TimeSpan(4, 29, 0);
+                monthlySchedule6.EndingAt = new TimeSpan(4, 29, 10);
+                monthlySchedule6.DurationStartDate = DateTime.Now;
+                monthlySchedule6.DurationEndDate = monthlySchedule6.DurationStartDate.AddDays(200);
 
-Q.  What is the relationship between the AVLNode class and the BSTNode class?
+                dynamic dailyOccursOnceAtSchedule7 = new ExpandoObject();
+                dailyOccursOnceAtSchedule7.Class = "SMS";
+                dailyOccursOnceAtSchedule7.Method = "SendCustomerInvoice";
+                dailyOccursOnceAtSchedule7.ScheduleFrequencyType = ScheduleFrequencyType.DailySchedule;
+                dailyOccursOnceAtSchedule7.ScheduleFrequencyInterval = 1;
+                dailyOccursOnceAtSchedule7.OccursOnceAt = new TimeSpan(5, 10, 0);
+                dailyOccursOnceAtSchedule7.DurationStartDate = DateTime.Now;
+                dailyOccursOnceAtSchedule7.DurationEndDate = dailyOccursOnceAtSchedule7.DurationStartDate.AddDays(5);
 
-A.  The AVLNode is-a BSTNode.  Since the AVLTree inherits and uses many
-methods from the BinarySearchTree (which operates on BSTNodes), the nodes used
-by the AVLTree must be compatible.
-    The difference between AVLNode and its ancestor is that each AVLNode
-remembers its height information.   This is because the AVL rotations
-frequently compares the height of its subtrees, and it would be inefficent if
-we had to recursively calculate such info.
-
-
-
-Class Hierachy
-
-		|-------------------------|             |------------|
-                |     BinarySearchTree    |--has-a----->|   BSTNode  |
-                |-------------------------|             |------------|
-                           ^    ^                           ^  ^
-                          /      \                          |  |
-                       is-a     is-a                        |  |
-                        /          \                        |  |
-                       /           |--------------|         |  |
-                      /            |  SplayTree   |-has-a---|  |
-                     /             |--------------|            |
-                    /                                        is-a 
-                   /                                           |
-    |----------------|                                  |------------|
-    |     AVLTree    |--has-a-------------------------->| AVLNode    |
-    |----------------|                                  |------------|
-   
-
-
-
-Q.  There is no SplayNode class.  Why does SplayTree use BSTNodes?
-
-A.  The SplayTree class uses BSTNode, while the AVLTree uses AVLNode. The idea
-is that AVLTree needs to keep track of the height information. On the other
-hand, SplayTree doesn't need to have height information. This is very similar
-to BSTNode class, so there's no need to make a SplayNode class.
-
-
-Q.  What are the similarities and differences between AVLTree rotation methods
-and SplayTree rotation methods?  Why are they not methods of BinarySearchTree
-class or the node classes?
-
-A.  They are basically the same. However, for the AVLTree rotations, they need
-to update the height information while the SplayTree's methods don't. These
-methods could have been methods of BinarySearchTree, so that AVLTree and
-SplayTree can inherit them; however, BST doesn't use rotation at all. We then
-came to the decision of making each of the AVLTree, SplayTree different
-rotation methods.
-
-
-Q.  The Heap class does not allocate any memory--it shares the data.  Why?
-
-A.  It makes it faster =)
-
-
-Q.  Sort() is currently a method of HeapSort.  The alternative is to define an
-external HeapSort() function that is a friend of the Heap class--HeapSort()
-still needs to call the PercDown() function.  Why did we choose to make
-HeapSort a function inside the Heap class?
-
-A.  We think that our special(ized) Heap should know how to sort itself. :)
-
-
------------------------
-Word Frequency Analysis
------------------------
-
-These were the steps to the process:
-    1 ) run word-count on each essay
-    2 ) record the frequency for the top 28 most frequent words and
-	take a subtotal for each (this will be the total number of
-	'relevant' words in each literature)
-    3 ) isolate the words that made it to top 7 (there were 10), and
-	take their percentage with respect to the subtotals
-    4 ) anaylze by comparing the percentages
-
-Of the 10 words to anaylze, words not used at predictable frequencies by Sir
-Francis Bacon (is, in, you) were ignored.  That left 6 words that are used
-at predictable frequencies by Bacon (of, the, and, that, to, a), and 1 word
-that is not used significantly by Bacon (I).  Two of the 6 words used
-frequently and predictably by Bacon (to, a) were used just as frequent
-and predictable in Hamlet and All's Well that Ends Well.  On the other hand,
-the 4 remaining words (of, the, and, that), which also happens to be the words
-used the most frequent by Bacon, are used at only 1/2 to 2/3 the frequency by
-the author of Hamlet and All's Well that Ends Well.  The minor similarities
-hardly make up for the major differeces.  Based on the above analysis, we 
-conclude that Bacon wrote neither of Shakespeare's plays.
-	
-
----------
-Profiling
----------
-
-Our expected performance bottlenecks for the word-count program are...
-	+ the Splay operation for SplayTree
-	+ the insertHelp function for AVL, and
-	+ the PercolateDown operation for Heap
-We chose these to be the bottlenecks because we assumed the function call
-frequencies and costs. However, it turned out that some of these are not huge
-bottlenecks at all. For example, Splay funtion doesn't take as much time as we
-thought.  Words that are inserted frequently don't take so much rotations
-because they are already close to the root.
+                var schedules = new List<dynamic>();
+                schedules.AddRange(new[] { dailySchedule4 });
 
 
-  %   cumulative   self              self     total           
- time   seconds   seconds    calls  ns/call  ns/call  name    
+                dynamic assemblyPath = new ExpandoObject();
+                assemblyPath.FilePath = @"C:\Users\kenan\Documents\Visual Studio 2010\Projects\JobScheduleSolutionV1\SampleLibrary\bin\Debug\SampleLibrary.dll";
+                assemblyPath.ServiceMethods = JobSchedule.GetServiceMethods(assemblyPath, schedules.ToArray());
 
-  1.05      1.55     0.02                             SplayTree<>::Splay()
-  4.26      0.45     0.10	                      AVLTree<>::insertHelp()
-  1.28      1.76     0.03                             Heap::percDown()
+                //You can serialize and deserialize Job Schedule data. So, After serializing data, you can update schedules.
+                var serializedAssemblyPath = Newtonsoft.Json.JsonConvert.SerializeObject(assemblyPath, Newtonsoft.Json.Formatting.Indented, new Newtonsoft.Json.Converters.IsoDateTimeConverter(), new Newtonsoft.Json.Converters.StringEnumConverter());
+                var deserializedAssemblyPath = Newtonsoft.Json.JsonConvert.DeserializeObject<ExpandoObject>(serializedAssemblyPath);
 
-
-The gprof results show that, in general standard I/O operations takes up most 
-of the runtime:
-
-
-index % time    self  children    called     name
-[2]     24.3    0.05    0.52   45429         next_token()
-[3]     20.0    0.05    0.42                 operator<<()
-
-
-Even though each word is only read/printed once, we think the cause for I/O
-as a bottleneck is its huge constant overhead (which much exceeds the log n
-tree operations)
-
-For specific choice of trees and input, namely bst tree with word.txt as
-input, the biggest bottleneck was string operations and FindNode() function. 
-The cause is that the pre-sorted words created an unbalanced binary search
-tree, requiring a complete traversal of a linked-list-like data structure
-everytime a word is inserted.  At each node visited during the traversal,
-FindNode compares the string keys.
-
-
-index % time    self  children    called     name
-                                                 <spontaneous>
-[1]     75.6  167.51  533.04                 std::string::compare()
-               99.37  235.36 3408496094/3408541521     std::string::size()
-               35.05   81.63 1704248047/1704293468     std::string::data() 
-               81.63    0.00 1704248047/2523092351     std::string::_M_data()
-
-
-Another significant operation which we overlooked (for the AVLTree) is the
-UpdateHeight function (which actually took 3.8 percent of the run time).
-
-  %   cumulative   self              self     total           
- time   seconds   seconds    calls  ns/call  ns/call  name    
-  3.83      0.54     0.09                             AVLTree<>::updateHeight()
-
-
---------------------
-Algorithmic Analysis
---------------------
-
-From our "SelectionSortSort vs. HeapSort" plot, we can see that when N is greater than
-8000, selectionsort function grows faster than heapsort function. This confroms our knowledge
-that heap sort has better performance than selecion sort in terms of time.
-
-We know that both mergesort(f) and heapsort(g)  have O(n logn) runing time.
-In our "MergeSort vs. HeapSort" plot, two lines are parallel to each other most of the time.
-This shows that f/g = constant, which means that the runing time of the two algorithms are different
-by a constant factor.
-
-------------------------------
-Word Stemming and Punctuations
-------------------------------
- For the punctuation part, we use the built in function "ispunct(c)" to check if 
-the character is a punctuation or a character. If it is a punctuation, then 
-just ignore (treat it like a space). However, due to the nature of 
-the ispunct(c) function - it considers " ' " and " - " as
-punctuations - there are chances for the side effects happen: "I'd" will be read as 2 
-different words: "I" and "d", same as "he's" becomes "he" and "s". The other case can 
-be "ice-cream" becomes "ice" and "cream". Therefore, we came to the decision of 
-using one of our own functions--ispunctuation(c)--to eliminate the case 's and 'd, 
-and '-'. This function will call ispunct(c) if c is not the ' and -. 
-
- For the word-stemming part, two stemming kinds are taken care: 
-words end with -s and with -ly. Due to our language skill limitations,
-we cannot check all the cases and all the exceptions. We have tried our best to check 
-all of the cases that we think of. Also, since " 'd ", " 's " is in the scope above,
-we remove them as well. For this option, one needs to add "-suf" in the command line as
-mentioned above.
+                var host = new JobScheduleHost("Job Schedule", "Job Schedule", deserializedAssemblyPath);
+                host.Start();
+                Console.ReadLine();
+                host.Stop();
+                Console.ReadLine();
+            }
+        }
+    }
